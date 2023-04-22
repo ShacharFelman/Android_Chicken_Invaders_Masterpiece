@@ -3,8 +3,6 @@ package com.example.android_chicken_invaders.model;
 public class GameManager {
     private static GameManager gameManager;
 
-    private final static double RANDOM_DENSITY = 0.4;
-
     private int rows;
     private int cols;
     private final Board board;
@@ -14,7 +12,7 @@ public class GameManager {
     private GameManager(int rows, int cols) {
         setRows(rows);
         setCols(cols);
-        board = Board.getInstance(getRows(), getCols(), RANDOM_DENSITY);
+        board = Board.getInstance(getRows(), getCols(), GameConstants.RANDOM_DENSITY);
     }
 
     public static void init(int rows, int cols) {

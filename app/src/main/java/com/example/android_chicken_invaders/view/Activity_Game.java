@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.example.android_chicken_invaders.R;
+import com.example.android_chicken_invaders.model.GameConstants;
 import com.example.android_chicken_invaders.model.GameManager;
 import com.example.android_chicken_invaders.model.ObstacleTypes;
 import com.example.android_chicken_invaders.utils.MyScreenUtils;
@@ -19,12 +20,6 @@ import com.google.android.material.button.MaterialButton;
 import java.util.Random;
 
 public class Activity_Game extends AppCompatActivity {
-
-    private final static int ROWS = 6;
-    private final static int COLS = 3;
-    private final static int TIMER_DELAY_MS = 750;
-    private final static int INITIAL_LIVES_COUNT = 3;
-    private final static int INITIAL_PLAYER_POSITION = COLS / 2;
 
     private AppCompatImageView game_IMG_back;
     private AppCompatImageView[] game_IMG_player;
@@ -87,27 +82,34 @@ public class Activity_Game extends AppCompatActivity {
                 findViewById(R.id.game_IMG_player_1),
                 findViewById(R.id.game_IMG_player_2),
                 findViewById(R.id.game_IMG_player_3),
+                findViewById(R.id.game_IMG_player_4),
+                findViewById(R.id.game_IMG_player_5),
         };
 
         game_IMG_player_crash = new AppCompatImageView[]{
                 findViewById(R.id.game_IMG_player_crash_1),
                 findViewById(R.id.game_IMG_player_crash_2),
                 findViewById(R.id.game_IMG_player_crash_3),
+                findViewById(R.id.game_IMG_player_crash_4),
+                findViewById(R.id.game_IMG_player_crash_5),
         };
 
         game_IMG_opponent = new AppCompatImageView[]{
                 findViewById(R.id.game_IMG_opponent_1),
                 findViewById(R.id.game_IMG_opponent_2),
                 findViewById(R.id.game_IMG_opponent_3),
+                findViewById(R.id.game_IMG_opponent_4),
+                findViewById(R.id.game_IMG_opponent_5),
         };
 
         game_IMG_obstacles = new AppCompatImageView[][] {
-                {findViewById(R.id.game_IMG_1_1), findViewById(R.id.game_IMG_1_2), findViewById(R.id.game_IMG_1_3)},
-                {findViewById(R.id.game_IMG_2_1), findViewById(R.id.game_IMG_2_2), findViewById(R.id.game_IMG_2_3)},
-                {findViewById(R.id.game_IMG_3_1), findViewById(R.id.game_IMG_3_2), findViewById(R.id.game_IMG_3_3)},
-                {findViewById(R.id.game_IMG_4_1), findViewById(R.id.game_IMG_4_2), findViewById(R.id.game_IMG_4_3)},
-                {findViewById(R.id.game_IMG_5_1), findViewById(R.id.game_IMG_5_2), findViewById(R.id.game_IMG_5_3)},
-                {findViewById(R.id.game_IMG_player_egg_1), findViewById(R.id.game_IMG_player_egg_2), findViewById(R.id.game_IMG_player_egg_3)}
+                {findViewById(R.id.game_IMG_1_1), findViewById(R.id.game_IMG_1_2), findViewById(R.id.game_IMG_1_3), findViewById(R.id.game_IMG_1_4), findViewById(R.id.game_IMG_1_5)},
+                {findViewById(R.id.game_IMG_2_1), findViewById(R.id.game_IMG_2_2), findViewById(R.id.game_IMG_2_3), findViewById(R.id.game_IMG_2_4), findViewById(R.id.game_IMG_2_5)},
+                {findViewById(R.id.game_IMG_3_1), findViewById(R.id.game_IMG_3_2), findViewById(R.id.game_IMG_3_3), findViewById(R.id.game_IMG_3_4), findViewById(R.id.game_IMG_3_5)},
+                {findViewById(R.id.game_IMG_4_1), findViewById(R.id.game_IMG_4_2), findViewById(R.id.game_IMG_4_3), findViewById(R.id.game_IMG_4_4), findViewById(R.id.game_IMG_4_5)},
+                {findViewById(R.id.game_IMG_5_1), findViewById(R.id.game_IMG_5_2), findViewById(R.id.game_IMG_5_3), findViewById(R.id.game_IMG_5_4), findViewById(R.id.game_IMG_5_5)},
+                {findViewById(R.id.game_IMG_6_1), findViewById(R.id.game_IMG_6_2), findViewById(R.id.game_IMG_6_3), findViewById(R.id.game_IMG_6_4), findViewById(R.id.game_IMG_6_5)},
+                {findViewById(R.id.game_IMG_player_egg_1), findViewById(R.id.game_IMG_player_egg_2), findViewById(R.id.game_IMG_player_egg_3), findViewById(R.id.game_IMG_player_egg_4), findViewById(R.id.game_IMG_player_egg_5)}
         };
 
         game_BTN_right = findViewById(R.id.game_BTN_right);
@@ -144,22 +146,24 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void initGifAnimation() {
-        Glide.with(Activity_Game.this)
-                .load(R.drawable.gif_chicken_red)
-                .into(game_IMG_opponent[0]);
 
-        Glide.with(Activity_Game.this)
-                .load(R.drawable.gif_chicken_blue)
-                .into(game_IMG_opponent[1]);
-
-        Glide.with(Activity_Game.this)
-                .load(R.drawable.gif_chicken_red)
-                .into(game_IMG_opponent[2]);
+        int drawableRef;
+        for (int i = 0; i < game_IMG_opponent.length; i++) {
+            if(i % 2 == 0)
+                Glide.with(Activity_Game.this)
+                        .load(R.drawable.gif_chicken_red)
+                        .into(game_IMG_opponent[i]);
+            else
+                Glide.with(Activity_Game.this)
+                        .load(R.drawable.gif_chicken_blue)
+                        .into(game_IMG_opponent[i]);
+        }
 
         for (AppCompatImageView game_img_player_crash : game_IMG_player_crash)
             Glide.with(Activity_Game.this)
                     .load(R.drawable.gif_egg3)
                     .into(game_img_player_crash);
+
         /*
         Set Rocket as GIF (Animated)
 
@@ -172,7 +176,7 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void initBoardManager() {
-        GameManager.init(ROWS, COLS);
+        GameManager.init(GameConstants.ROWS, GameConstants.COLS);
         gameManager = GameManager.getGameManager();
     }
 
@@ -181,8 +185,8 @@ public class Activity_Game extends AppCompatActivity {
         game_BTN_left.setEnabled(true);
         game_LAY_gameOver.setVisibility(View.GONE);
 
-        gameManager.setLives(INITIAL_LIVES_COUNT);
-        gameManager.setPlayerPosition(INITIAL_PLAYER_POSITION);
+        gameManager.setLives(GameConstants.INITIAL_LIVES_COUNT);
+        gameManager.setPlayerPosition(GameConstants.INITIAL_PLAYER_POSITION);
         isGameOver = false;
         gameManager.resetBoard();
 
@@ -193,6 +197,7 @@ public class Activity_Game extends AppCompatActivity {
         else
             isFirstGame = false;
 
+        updateLivesUI();
         MySignal.getInstance().sound(R.raw.msg_new_game);
     }
 
@@ -201,12 +206,12 @@ public class Activity_Game extends AppCompatActivity {
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-                timerHandler.postDelayed(this, TIMER_DELAY_MS);
+                timerHandler.postDelayed(this, GameConstants.TIMER_DELAY_MS);
                 timerIteration();
             }
         };
 
-        timerHandler.postDelayed(timerRunnable, TIMER_DELAY_MS);
+        timerHandler.postDelayed(timerRunnable, GameConstants.TIMER_DELAY_MS);
     }
 
     private void stopTimer() {
@@ -255,7 +260,7 @@ public class Activity_Game extends AppCompatActivity {
         game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.VISIBLE);
 
         if(!isGameOver)
-            new Handler().postDelayed(() -> game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.INVISIBLE), TIMER_DELAY_MS);
+            new Handler().postDelayed(() -> game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.INVISIBLE), GameConstants.TIMER_DELAY_MS);
 
         if(isGameOver)
             MySignal.getInstance().sound(R.raw.msc_game_over);
