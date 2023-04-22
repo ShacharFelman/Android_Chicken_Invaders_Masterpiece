@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.Activity_Game">
+
+    <!-- /// Background Layout -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--    Image Background    -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/game_IMG_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/img_bck_1_small" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <!-- Background Layout \\\ -->
+
+    <!-- /// Game Data Layout-->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/game_LAY_gameData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <!-- /// Lives Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_heart1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_heart" />
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_heart2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_heart" />
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_heart3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_heart" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Lives Layout \\\ -->
+
+        <!-- /// Score Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="16dp"
+            android:visibility="invisible">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/game_LBL_score"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:textSize="32sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Score Layout \\\ -->
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <!-- Game Data Layout \\\ -->
+
+    <!-- /// Matrix Layout-->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/game_LAY_gameData"
+        android:orientation="vertical">
+
+        <!-- /// Opponent Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp">
+
+            <!-- /// Opponent Col 1-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_opponent_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_chicken_small" />
+            <!-- Opponent Col 1 \\\ -->
+
+            <!-- /// Opponent Col 2-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_opponent_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_chicken_small" />
+            <!-- Opponent Col 2 \\\ -->
+
+            <!-- /// Opponent Col 3-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_opponent_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_chicken_small" />
+            <!-- Opponent Col 3 \\\ -->
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Opponent Layout \\\ -->
+
+        <!-- /// Row 1 Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <!-- /// Row 1 Col 1-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_1_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 1 Col 1 \\\ -->
+
+            <!-- /// Row 1 Col 2-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_1_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 1 Col 2 \\\ -->
+
+            <!-- /// Row 1 Col 3-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_1_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 1 Col 3 \\\ -->
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Row 1 Layout \\\ -->
+
+        <!-- /// Row 2 Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <!-- /// Row 2 Col 1 -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_2_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 2 Col 1 \\\ -->
+
+            <!-- /// Row 2 Col 2-->
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_2_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 2 Col 2 \\\ -->
+
+            <!-- /// Row 2 Col 3-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_2_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 2 Col 3 \\\ -->
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Row 2 Layout \\\ -->
+
+        <!-- /// Row 3 Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <!-- /// Row 3 Col 1-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_3_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 3 Col 1 \\\ -->
+
+            <!-- /// Row 3 Col 2-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_3_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 3 Col 2 \\\ -->
+
+            <!-- /// Row 3 Col 3 Layout-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_3_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_egg"
+                    android:visibility="invisible"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <!-- Row 3 Col 3 Layout \\\ -->
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Row 3 Layout \\\ -->
+
+        <!-- /// Row 4 Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <!-- /// Row 4 Col 1-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_4_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 4 Col 1 \\\ -->
+
+            <!-- /// Row 4 Col 2-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_4_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 4 Col 2 \\\ -->
+
+            <!-- /// Row 4 Col 3-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_4_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 4 Col 3 \\\ -->
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Row 4 Layout \\\ -->
+
+        <!-- /// Row 5-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <!-- /// Row 5 Col 1 -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_5_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 5 Col 1 \\\ -->
+
+            <!-- /// Row 5 Col 2 -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_5_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 5 Col 2 \\\ -->
+
+            <!-- /// Row 5 Col 3 Layout-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_IMG_5_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_egg"
+                android:visibility="invisible"
+                />
+            <!-- Row 5 Col 3 \\\ -->
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Row 5 Layout \\\ -->
+
+        <!-- /// Player Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
+
+
+            <!-- /// Player Col 1 -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_spaceship"
+                    android:visibility="invisible"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_egg_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_egg"
+                    android:visibility="invisible"
+                    android:padding="10dp"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_crash_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/img_egg3_small"
+                    android:visibility="invisible"
+                    />
+            </FrameLayout>
+            <!-- Player Col 1 \\\ -->
+
+            <!-- /// Player Col 2 -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_spaceship"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_egg_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_egg"
+                    android:visibility="invisible"
+                    android:padding="10dp"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_crash_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/img_egg3_small"
+                    android:visibility="invisible"
+                    />
+            </FrameLayout>
+            <!-- Player Col 2 \\\ -->
+
+            <!-- /// Player Col 3 -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_spaceship"
+                    android:visibility="invisible"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_egg_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_egg"
+                    android:visibility="invisible"
+                    android:padding="10dp"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/game_IMG_player_crash_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/img_egg3_small"
+                    android:visibility="invisible"
+                    />
+
+            </FrameLayout>
+            <!-- Player Col 3 \\\ -->
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Player Row Layout \\\ -->
+
+        <!-- /// Arrows Layout-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="10dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/game_BTN_left"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_left"
+                app:iconTint="#8C8C8C"
+                android:backgroundTint="#00000000"
+                app:iconSize="70dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/game_BTN_right"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_right"
+                app:iconTint="#8C8C8C"
+                android:backgroundTint="#00000000"
+                app:iconSize="70dp"
+                app:iconGravity="textEnd"
+
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Player Layout \\\ -->
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <!-- Matrix Layout \\\ -->
+
+    <!-- /// Game Over Layout-->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/game_LAY_gameOver"
+            android:visibility="visible"
+            android:layout_width="300dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            android:backgroundTint="#66FFFFFF"
+            android:padding="50dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:orientation="vertical"
+                android:paddingVertical="20dp"
+                android:gravity="center_horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_game_over"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_weight="1"                    />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/game_LBL_gameOverScore"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textColor="@android:color/white"
+                    android:layout_weight="1"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/game_BTN_restart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_restart_game"
+                    android:textSize="24sp"
+                    android:textAllCaps="false"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</RelativeLayout>
