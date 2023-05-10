@@ -2,8 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".App"
@@ -15,18 +20,33 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Android_Chicken_Invaders"
         tools:targetApi="31">
-        <activity
-            android:name=".view.Activity_Game"
-            android:screenOrientation="portrait"
-            android:exported="true">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCAb2N1fkt9B5mPZj1c4S1N7i_aIe0Istk">
+        </meta-data>
+
+        <activity
+            android:name=".view.activities.Activity_Main"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
+        <activity
+            android:name=".view.activities.Activity_Game"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activities.Activity_ScoreBoard"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+
 
     </application>
 

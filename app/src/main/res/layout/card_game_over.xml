@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_game">
+
+    <!-- game over -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/game_LAY_gameOver"
+        android:visibility="visible"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        android:backgroundTint="#66FFFFFF"
+        android:padding="50dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/game_LBL_gameOver"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="42sp"
+                android:text="Game Over"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/game_LBL_scoreTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:textSize="24sp"
+                android:text="your score: X"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                tools:ignore="HardcodedText"
+                android:layout_below="@id/game_LBL_gameOver"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/game_EDT_name"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Name"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/game_BTN_mainPage"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#66F44336"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"
+                    tools:ignore="HardcodedText"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/game_BTN_scoreBoard"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#664CAF50"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Confirm"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"
+                    tools:ignore="HardcodedText"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+    <!-- game over //-->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

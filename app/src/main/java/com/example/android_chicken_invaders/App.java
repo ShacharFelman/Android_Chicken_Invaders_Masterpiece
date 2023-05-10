@@ -3,6 +3,7 @@ package com.example.android_chicken_invaders;
 import android.app.Application;
 
 import com.example.android_chicken_invaders.utils.MySignal;
+import com.example.android_chicken_invaders.utils.SharedPreference;
 
 public class App extends Application {
 
@@ -11,5 +12,7 @@ public class App extends Application {
         super.onCreate();
 
         MySignal.init(this);
+        SharedPreference.init(this);
+
     }
 }

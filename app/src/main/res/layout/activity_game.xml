@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Activity_Game">
+    tools:context=".view.activities.Activity_Game">
 
     <!-- /// Background Layout -->
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -80,8 +80,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|end"
-            android:paddingEnd="16dp"
-            android:visibility="invisible">
+            android:paddingEnd="16dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/game_LBL_score"
@@ -89,7 +88,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:textColor="@color/white"
-                android:textSize="32sp" />
+                android:textSize="32sp"
+                android:text="000"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
         <!-- Score Layout \\\ -->
@@ -780,59 +780,7 @@
     <!-- Matrix Layout \\\ -->
 
     <!-- /// Game Over Layout-->
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/game_LAY_gameOver"
-            android:visibility="visible"
-            android:layout_width="300dp"
-            android:layout_height="350dp"
-            android:layout_gravity="center"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            android:backgroundTint="#66FFFFFF"
-            android:padding="50dp">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                android:orientation="vertical"
-                android:paddingVertical="20dp"
-                android:gravity="center_horizontal">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_game_over"
-                    android:textSize="36sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/white"
-                    android:layout_weight="1"                    />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/game_LBL_gameOverScore"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textColor="@android:color/white"
-                    android:layout_weight="1"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/game_BTN_restart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btn_restart_game"
-                    android:textSize="24sp"
-                    android:textAllCaps="false"/>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
+    <include layout="@layout/card_game_over"/>
+    <!-- Game Over Layout ///-->
 
 </RelativeLayout>

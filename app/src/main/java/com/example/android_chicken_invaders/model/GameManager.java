@@ -1,5 +1,7 @@
 package com.example.android_chicken_invaders.model;
 
+import com.example.android_chicken_invaders.model.entities.Board;
+
 public class GameManager {
     private static GameManager gameManager;
 
@@ -8,11 +10,13 @@ public class GameManager {
     private final Board board;
     private int lives;
     private int playerPosition;
+    private int score;
+    private boolean addObstacle = true;
 
     private GameManager(int rows, int cols) {
         setRows(rows);
         setCols(cols);
-        board = Board.getInstance(getRows(), getCols(), GameConstants.RANDOM_DENSITY);
+        board = Board.getInstance(getRows(), getCols()/*, GameConstants.RANDOM_DENSITY*/);
     }
 
     public static void init(int rows, int cols) {
@@ -47,7 +51,7 @@ public class GameManager {
         return lives;
     }
 
-    public void setLives(int lives) {
+    private void setLives(int lives) {
         this.lives = lives;
     }
 
@@ -59,21 +63,41 @@ public class GameManager {
         this.playerPosition = playerPosition;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    private void setScore(int score) {
+        this.score = score;
+    }
+
     public boolean isObstacleAtPosition(int i, int j) {
         return board.getBoardMatrix()[i][j] == ObstacleTypes.OBSTACLE;
     }
 
     public boolean isCrashed() {
-        return isObstacleAtPosition(getRows() - 1, getPlayerPosition());
+        return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()] == ObstacleTypes.OBSTACLE;
     }
 
-    public void resetBoard() {
+    public boolean isReward() {
+        return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()] == ObstacleTypes.REWARD;
+    }
+
+    private void resetBoard() {
         board.clearObstacles();
     }
 
     public boolean updateGameBoard() {
         board.shiftDownObstacles();
-        return board.newObstaclesRow();
+        if(addNewObstacleRow())
+            return board.newObstaclesRow();
+
+        return false;
+    }
+
+    public boolean addNewObstacleRow() {
+        this.addObstacle = !this.addObstacle;
+        return this.addObstacle;
     }
 
     public void reduceLives() {
@@ -83,6 +107,22 @@ public class GameManager {
 
     public boolean isGameOver() {
         return lives == 0;
+    }
+
+    public void restartGameParameters() {
+        setLives(GameConstants.INITIAL_LIVES_COUNT);
+        setPlayerPosition(GameConstants.INITIAL_PLAYER_POSITION);
+        this.addObstacle = true;
+        setScore(0);
+        resetBoard();
+    }
+
+    public void increaseScore() {
+        score++;
+    }
+
+    public void increaseScoreBy(int amount) {
+        score += amount;
     }
 
     public void movePlayerRight() {
