@@ -96,8 +96,9 @@ public class GameManager {
     }
 
     public boolean addNewObstacleRow() {
+        boolean isAddObstacle = this.addObstacle;
         this.addObstacle = !this.addObstacle;
-        return this.addObstacle;
+        return isAddObstacle;
     }
 
     public void reduceLives() {

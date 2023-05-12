@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -15,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.android_chicken_invaders.R;
 import com.example.android_chicken_invaders.model.RecordsListMng;
 import com.example.android_chicken_invaders.model.entities.GameRecord;
-import com.example.android_chicken_invaders.view.others.Callback_List;
+import com.example.android_chicken_invaders.interfaces.Callback_List;
 
 public class ListFragment extends Fragment {
 
@@ -45,7 +44,6 @@ public class ListFragment extends Fragment {
             fragmentList_LV_scoreBoard.setAdapter(adapter);
         }
     }
-
 
     private void findViews(View view){
         this.fragmentList_LV_scoreBoard = view.findViewById(R.id.fragmentList_LV_scoreBoard);

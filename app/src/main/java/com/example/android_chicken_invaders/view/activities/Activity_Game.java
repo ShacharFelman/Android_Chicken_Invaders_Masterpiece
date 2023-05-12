@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -13,14 +12,16 @@ import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.example.android_chicken_invaders.R;
+import com.example.android_chicken_invaders.interfaces.MovementCallback;
 import com.example.android_chicken_invaders.model.GameConstants;
 import com.example.android_chicken_invaders.model.GameManager;
 import com.example.android_chicken_invaders.model.ObstacleTypes;
 import com.example.android_chicken_invaders.model.RecordsListMng;
 import com.example.android_chicken_invaders.model.entities.GameRecord;
+import com.example.android_chicken_invaders.sensor.MovementSensor;
 import com.example.android_chicken_invaders.utils.MyScreenUtils;
 import com.example.android_chicken_invaders.utils.MySignal;
-import com.example.android_chicken_invaders.view.others.ObstacleIconRef;
+import com.example.android_chicken_invaders.view.ObstacleIconRef;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -47,6 +48,8 @@ public class Activity_Game extends AppCompatActivity {
     private int newObstacleSoundCounter = 0;
     private int timerDelay;
 
+    private MovementSensor movementSensor;
+
     private boolean isGameOver = false;
     private boolean isFirstGame = true;
     private boolean isFastMode = false;
@@ -67,6 +70,7 @@ public class Activity_Game extends AppCompatActivity {
         findViews();
         initUIObjects();
         initButtonsListeners();
+        initMovementMode();
         initBoardManager();
 
         startGame();
@@ -198,6 +202,31 @@ public class Activity_Game extends AppCompatActivity {
                     .into(game_img_player);
 
          */
+    }
+
+    private void initMovementMode() {
+        if (isSensorMode) { // sensor mode
+            initSensor();
+            game_BTN_left.setVisibility(View.INVISIBLE);
+            game_BTN_right.setVisibility(View.INVISIBLE);
+            movementSensor.start();
+        } else {
+            game_BTN_left.setVisibility(View.VISIBLE);
+            game_BTN_right.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void initSensor() {
+        movementSensor = new MovementSensor(this, new MovementCallback() {
+            @Override
+            public void movePlayerLeft() { moveLeft(); }
+
+            @Override
+            public void movePlayerRight() { moveRight(); }
+
+            @Override
+            public void playerSpeed(int y) {}
+        });
     }
 
     private void initBoardManager() {

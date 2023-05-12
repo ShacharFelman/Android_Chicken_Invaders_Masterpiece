@@ -2,13 +2,12 @@ package com.example.android_chicken_invaders.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.android_chicken_invaders.R;
 import com.example.android_chicken_invaders.view.fragments.ListFragment;
 import com.example.android_chicken_invaders.view.fragments.MapFragment;
-import com.example.android_chicken_invaders.view.others.Callback_List;
+import com.example.android_chicken_invaders.interfaces.Callback_List;
 import com.google.android.material.button.MaterialButton;
 
 public class Activity_ScoreBoard extends AppCompatActivity {
@@ -16,7 +15,7 @@ public class Activity_ScoreBoard extends AppCompatActivity {
     private MapFragment mapFragment;
     private MaterialButton score_BTN_mainPage;
 
-    private Callback_List callback_list = new Callback_List() {
+    private final Callback_List callback_list = new Callback_List() {
         @Override
         public void setMapLocation(double lat, double lng, String name) {
             mapFragment.setMapLocation(lat, lng,name);

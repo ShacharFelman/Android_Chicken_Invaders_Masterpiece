@@ -1,4 +1,4 @@
-package com.example.android_chicken_invaders.view.others;
+package com.example.android_chicken_invaders.view;
 
 
 import com.example.android_chicken_invaders.R;

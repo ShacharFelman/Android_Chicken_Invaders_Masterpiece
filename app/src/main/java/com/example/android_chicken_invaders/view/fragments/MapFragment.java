@@ -28,7 +28,7 @@ public class MapFragment extends Fragment {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
 
-        mapFragment.getMapAsync(googleMap1 -> this.googleMap = googleMap1);
+        mapFragment.getMapAsync(googleMap -> this.googleMap = googleMap);
         return view;
     }
 

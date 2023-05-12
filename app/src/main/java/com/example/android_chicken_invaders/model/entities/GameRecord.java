@@ -59,9 +59,6 @@ public class GameRecord {
     @NonNull
     @Override
     public String toString() {
-        return "GameRecord{" +
-                "userId='" + userId + '\'' +
-                ", score=" + score +
-                '}';
+        return score + "\t" + userId + " \t" + lat + ", " + lng;
     }
 }
