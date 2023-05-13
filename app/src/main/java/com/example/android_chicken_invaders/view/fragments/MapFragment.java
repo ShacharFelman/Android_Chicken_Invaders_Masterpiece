@@ -11,9 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.android_chicken_invaders.R;
+import com.example.android_chicken_invaders.model.RecordsListMng;
+import com.example.android_chicken_invaders.model.entities.GameRecord;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,6 +24,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapFragment extends Fragment {
@@ -34,7 +38,19 @@ public class MapFragment extends Fragment {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
 
-        mapFragment.getMapAsync(googleMap -> this.googleMap = googleMap);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                MapFragment.this.googleMap = googleMap;
+
+                List<LatLng> locations = new ArrayList<>();
+                for (GameRecord record : RecordsListMng.getInstance().getTopRecords())
+                    locations.add(new LatLng(record.getLat(), record.getLng()));
+
+                setMapMultipleLocations(locations);
+            }
+        });
+
         return view;
     }
 
@@ -51,28 +67,11 @@ public class MapFragment extends Fragment {
     }
 
     public void setMapMultipleLocations(List<LatLng> locations) {
-        /*
-        googleMap.clear();
-        for (LatLng location : locations) {
-            googleMap.addMarker(new MarkerOptions().position(location));
-        }
-
-        if (!locations.isEmpty()) {
-            LatLng firstLocation = locations.get(0);
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(firstLocation)
-                    .zoom(10)
-                    .build();
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        }
-         */
-
         googleMap.clear();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (LatLng location : locations) {
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(location));
+        for (LatLng location : locations)
             builder.include(location); // Add marker position to builder
-        }
+
         LatLngBounds bounds = builder.build();
         int padding = 100; // Padding in pixels to set around the markers
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);

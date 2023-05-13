@@ -58,20 +58,8 @@ public class Activity_ScoreBoard extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.score_LAY_map,mapFragment).commit();
     }
 
-    private void initMapLocations() {
-        List<LatLng> locations = new ArrayList<>();
-        for (GameRecord record : RecordsListMng.getInstance().getTopRecords())
-            locations.add(new LatLng(record.getLat(), record.getLng()));
-
-        mapFragment.setMapMultipleLocations(locations);
-    }
-
     //TODO: fix
     private void gotoActivityMain() {
-
-        initMapLocations();
-
-
-//        finish();
+        finish();
     }
 }
