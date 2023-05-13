@@ -10,15 +10,15 @@ import com.example.android_chicken_invaders.interfaces.MovementCallback;
 
 public class MovementSensor {
 
-    // sensor vars
     private final SensorManager sensorManager;
     private final Sensor sensor;
     private SensorEventListener sensorEventListener;
 
     private final MovementCallback movementCallback;
 
-    // vars
     private long timestamp = 0;
+    private int responseTime = 200;
+
 
 
     public MovementSensor(Context context, MovementCallback movementCallback) {
@@ -42,7 +42,6 @@ public class MovementSensor {
     }
 
     private void calculateStep(float x) {
-        int responseTime = 300;
         if(System.currentTimeMillis() - timestamp > responseTime){
             timestamp = System.currentTimeMillis();
             if(x > 3.0){

@@ -81,5 +81,15 @@
         android:textColor="@color/white"
         />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/main_IMG_rocket"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/main_SW_fast"
+        />
+
+    <!-- /// Game Over Layout-->
+    <include layout="@layout/card_gps_alert"/>
+    <!-- Game Over Layout ///-->
 
 </RelativeLayout>

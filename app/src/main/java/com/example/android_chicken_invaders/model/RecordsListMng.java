@@ -16,6 +16,8 @@ public class RecordsListMng {
 
     public RecordsListMng() {
         this.topRecords = loadData();
+        sortRecords();
+
         if (topRecords == null)
             this.topRecords = new ArrayList<>();
     }
@@ -42,7 +44,7 @@ public class RecordsListMng {
             topRecords.add(newRecord);
             saveData();
         }
-        topRecords.sort((r1, r2) -> r2.getScore() - r1.getScore());
+        sortRecords();
     }
 
     public ArrayList<GameRecord> loadData() {
@@ -52,7 +54,12 @@ public class RecordsListMng {
     }
 
     private void saveData() {
+        sortRecords();
         String recordsJson = new Gson().toJson(topRecords);
         SharedPreference.getInstance().putString(SP_RECORDS, recordsJson);
+    }
+
+    private void sortRecords() {
+        topRecords.sort((r1, r2) -> r2.getScore() - r1.getScore());
     }
 }

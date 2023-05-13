@@ -26,21 +26,28 @@ public class ListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         findViews(view);
-        initListView();
+        initListViewScoreBoard();
 
         fragmentList_LV_scoreBoard.setOnItemClickListener((adapterView, view1, position, l) -> {
             double lat = RecordsListMng.getInstance().getTopRecords().get(position).getLat();
-            double lon = RecordsListMng.getInstance().getTopRecords().get(position).getLng();
+            double lng = RecordsListMng.getInstance().getTopRecords().get(position).getLng();
             String namePlayer = RecordsListMng.getInstance().getTopRecords().get(position).getUserId();
-            callback_list.setMapLocation(lat,lon,namePlayer);
+            callback_list.setMapLocation(lat,lng,namePlayer);
         });
 
         return view;
     }
 
-    private void initListView() {
+    private void initListViewArray() {
         if(RecordsListMng.getInstance().getTopRecords() != null){
             ArrayAdapter<GameRecord> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_expandable_list_item_1, RecordsListMng.getInstance().getTopRecords());
+            fragmentList_LV_scoreBoard.setAdapter(adapter);
+        }
+    }
+
+    private void initListViewScoreBoard() {
+        if (RecordsListMng.getInstance().getTopRecords() != null) {
+            ScoreboardAdapter adapter = new ScoreboardAdapter(getActivity(), R.layout.list_item_scoreboard, RecordsListMng.getInstance().getTopRecords());
             fragmentList_LV_scoreBoard.setAdapter(adapter);
         }
     }

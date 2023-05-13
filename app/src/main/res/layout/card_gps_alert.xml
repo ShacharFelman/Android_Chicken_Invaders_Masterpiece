@@ -4,20 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/activity_game">
+    tools:showIn="@layout/activity_main">
 
-    <!-- game over -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/game_LAY_gameOver"
+        android:id="@+id/main_LAY_gps"
         android:visibility="visible"
         android:layout_width="300dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
-        android:backgroundTint="#66FFFFFF"
+        android:backgroundTint="#D1D1D1"
         android:padding="50dp"
-        android:layout_marginBottom="150dp">
+        android:layout_marginVertical="300dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -25,39 +24,48 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/game_LBL_gameOver"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="42sp"
-                android:text="Game Over"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/main_BTN_gpsClose"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    app:icon="@drawable/ic_close"
+                    app:iconTint="@color/black"
+                    android:backgroundTint="#00FFFFFF"
+                    />
+
+            </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/game_LBL_finalScore"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textSize="24sp"
-                android:text="your score: "
+                android:text="Please turn on GPS"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 tools:ignore="HardcodedText"
                 android:layout_below="@id/game_LBL_gameOver"/>
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/game_EDT_name"
-                android:layout_width="250dp"
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter Your Name"
                 android:layout_gravity="center_horizontal"
-                android:layout_centerHorizontal="true"
-/>
+                android:textSize="16sp"
+                android:text="It's just for showing your scores locations.\n\nWe are not receiving the data."
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText"
+                android:layout_below="@id/game_LBL_gameOver"
+                android:padding="20dp"
+                android:gravity="center_horizontal"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -66,35 +74,36 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/game_BTN_mainPage"
-                    android:layout_width="150dp"
+                    android:id="@+id/main_BTN_gpsCancel"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="#66F44336"
+                    android:backgroundTint="#F44336"
                     android:layout_gravity="center"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Cancel"
+                    android:text="No GPS"
                     android:textAllCaps="false"
                     app:cornerRadius="20dp"
                     tools:ignore="HardcodedText"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/game_BTN_scoreBoard"
-                    android:layout_width="150dp"
+                    android:id="@+id/main_BTN_gpsSettings"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="#664CAF50"
+                    android:backgroundTint="#4CAF50"
                     android:layout_gravity="center"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Confirm"
+                    android:text="GPS Settings"
                     android:textAllCaps="false"
                     app:cornerRadius="20dp"
                     tools:ignore="HardcodedText"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.cardview.widget.CardView>
-    <!-- game over //-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

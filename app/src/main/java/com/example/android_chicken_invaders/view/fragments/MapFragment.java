@@ -1,5 +1,6 @@
 package com.example.android_chicken_invaders.view.fragments;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +11,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.android_chicken_invaders.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class MapFragment extends Fragment {
 
@@ -42,5 +48,34 @@ public class MapFragment extends Fragment {
                 .zoom(10)                   // Sets the zoom
                 .build();                   // Creates a CameraPosition from the builder
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    public void setMapMultipleLocations(List<LatLng> locations) {
+        /*
+        googleMap.clear();
+        for (LatLng location : locations) {
+            googleMap.addMarker(new MarkerOptions().position(location));
+        }
+
+        if (!locations.isEmpty()) {
+            LatLng firstLocation = locations.get(0);
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(firstLocation)
+                    .zoom(10)
+                    .build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+         */
+
+        googleMap.clear();
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (LatLng location : locations) {
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(location));
+            builder.include(location); // Add marker position to builder
+        }
+        LatLngBounds bounds = builder.build();
+        int padding = 100; // Padding in pixels to set around the markers
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cameraUpdate);
     }
 }

@@ -42,10 +42,10 @@ public class Activity_Game extends AppCompatActivity {
     private MaterialButton game_BTN_mainPage;
     private MaterialTextView game_LBL_score;
     private AppCompatEditText game_EDT_name;
+    private MaterialTextView game_LBL_finalScore;
 
     private Handler timerHandler;
     private Runnable timerRunnable;
-    private int newObstacleSoundCounter = 0;
     private int timerDelay;
 
     private MovementSensor movementSensor;
@@ -81,8 +81,8 @@ public class Activity_Game extends AppCompatActivity {
 
         isSensorMode = bundle.getBoolean(GameConstants.KEY_SENSOR, false);
         isFastMode = bundle.getBoolean(GameConstants.KEY_FAST, false);
-        lng = bundle.getDouble(GameConstants.KEY_LAT, 31.777109717423652);
-        lat = bundle.getDouble(GameConstants.KEY_LNG, 35.23454639997845);
+        lat = bundle.getDouble(GameConstants.KEY_LAT, 31.777109717423652);
+        lng = bundle.getDouble(GameConstants.KEY_LNG, 35.23454639997845);
 
         timerDelay = GameConstants.TIMER_MS_BASE;
 
@@ -94,6 +94,8 @@ public class Activity_Game extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startTimer();
+        if (isSensorMode)
+            movementSensor.start();
     }
 
     @Override
@@ -101,6 +103,8 @@ public class Activity_Game extends AppCompatActivity {
         super.onPause();
 
         stopTimer();
+        if (isSensorMode)
+            movementSensor.stop();
     }
 
     private void findViews() {
@@ -148,6 +152,7 @@ public class Activity_Game extends AppCompatActivity {
         game_LBL_score = findViewById(R.id.game_LBL_score);
         game_LAY_gameOver = findViewById(R.id.game_LAY_gameOver);
         game_EDT_name = findViewById(R.id.game_EDT_name);
+        game_LBL_finalScore = findViewById(R.id.game_LBL_finalScore);
     }
 
     private void initUIObjects() {
@@ -176,7 +181,6 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void initGifAnimation() {
-
         for (int i = 0; i < game_IMG_opponent.length; i++) {
             if (i % 2 == 0)
                 Glide.with(Activity_Game.this)
@@ -188,28 +192,17 @@ public class Activity_Game extends AppCompatActivity {
                         .into(game_IMG_opponent[i]);
         }
 
-        for (AppCompatImageView game_img_player_crash : game_IMG_player_crash)
-            Glide.with(Activity_Game.this)
-                    .load(R.drawable.gif_egg3)
-                    .into(game_img_player_crash);
-
-//        ~~~~~ Set Rocket as GIF (Animated) ~~~~~
-        /*
-
         for (AppCompatImageView game_img_player : game_IMG_player)
             Glide.with(Activity_Game.this)
-                    .load(R.drawable.gif_rocket4)
+                    .load(R.drawable.gif_rocket1)
                     .into(game_img_player);
-
-         */
     }
 
     private void initMovementMode() {
-        if (isSensorMode) { // sensor mode
+        if (isSensorMode) {
             initSensor();
             game_BTN_left.setVisibility(View.INVISIBLE);
             game_BTN_right.setVisibility(View.INVISIBLE);
-            movementSensor.start();
         } else {
             game_BTN_left.setVisibility(View.VISIBLE);
             game_BTN_right.setVisibility(View.VISIBLE);
@@ -223,9 +216,6 @@ public class Activity_Game extends AppCompatActivity {
 
             @Override
             public void movePlayerRight() { moveRight(); }
-
-            @Override
-            public void playerSpeed(int y) {}
         });
     }
 
@@ -270,21 +260,15 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     public void timerIteration() {
-        boolean isNewObstacle;
+        boolean isNewReward;
         resetCrashUI();
 
-        isNewObstacle = gameManager.updateGameBoard();
+        isNewReward = gameManager.updateGameBoard();
         gameManager.increaseScore();
         updateBoardUI();
 
-        if (newObstacleSoundCounter == 5)
-            newObstacleSoundCounter = 0;
-
-        if (isNewObstacle) {
-            if (newObstacleSoundCounter == 0)
-                playNewObstacleSound();
-            newObstacleSoundCounter++;
-        }
+        if (isNewReward)
+            playNewObstacleSound();
 
         checkCrashReward();
         updatePlayerPositionUI();
@@ -298,6 +282,7 @@ public class Activity_Game extends AppCompatActivity {
     private void checkCrashReward() {
         if (gameManager.isReward()) {
             gameManager.increaseScoreBy(GameConstants.SCORE_REWARD);
+            updatePlayerRewardUI();
             updateScoreUI();
             return;
         }
@@ -316,6 +301,9 @@ public class Activity_Game extends AppCompatActivity {
     private void updatePlayerCrashUI() {
         game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.VISIBLE);
 
+        Glide.with(Activity_Game.this)
+                .load(ObstacleIconRef.CRASH.getDrawableRef())
+                .into(game_IMG_player_crash[gameManager.getPlayerPosition()]);
 
         if (!isGameOver)
             new Handler().postDelayed(() -> game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.INVISIBLE), timerDelay);
@@ -326,7 +314,18 @@ public class Activity_Game extends AppCompatActivity {
             MySignal.getInstance().sound(R.raw.msc_crash);
 
         MySignal.getInstance().vibrate(500);
+    }
 
+    private void updatePlayerRewardUI() {
+        game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.VISIBLE);
+
+        Glide.with(Activity_Game.this)
+                .load(ObstacleIconRef.EARNED.getDrawableRef())
+                .into(game_IMG_player_crash[gameManager.getPlayerPosition()]);
+
+        new Handler().postDelayed(() -> game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.INVISIBLE), timerDelay);
+
+        MySignal.getInstance().sound(R.raw.msc_earned);
     }
 
     private void resetCrashUI() {
@@ -343,14 +342,10 @@ public class Activity_Game extends AppCompatActivity {
 
         for (int i = 0; i < boardObstacles.length; i++) {
             for (int j = 0; j < boardObstacles[i].length; j++) {
-
-                // Update General Board UI (Not include player row)
-                updateObstacleUI(i, j, boardObstacles[i][j]);
-
-                // Update Player row UI with obstacles (check player position)
+                updateObstacleGifUI(i, j, boardObstacles[i][j]);
                 if (i == boardObstacles.length - 1)
                     if (j != gameManager.getPlayerPosition())
-                        updateObstacleUI(i, j, boardObstacles[i][j]);
+                        updateObstacleGifUI(i, j, boardObstacles[i][j]);
             }
         }
     }
@@ -371,20 +366,35 @@ public class Activity_Game extends AppCompatActivity {
         }
     }
 
-    private void updatePlayerPositionUI() {
-        for (int i = 0; i < game_IMG_player.length; i++) {
-            game_IMG_player[i].setVisibility(i == gameManager.getPlayerPosition() ? View.VISIBLE : View.INVISIBLE);
+    private void updateObstacleGifUI(int i, int j, ObstacleTypes type) {
+        switch (type) {
+            case NONE:
+                game_IMG_obstacles[i][j].setVisibility(View.INVISIBLE);
+                break;
+            case OBSTACLE:
+                game_IMG_obstacles[i][j].setVisibility(View.VISIBLE);
+                game_IMG_obstacles[i][j].setImageResource(ObstacleIconRef.OBSTACLE.getDrawableRef());
+                break;
+            case REWARD:
+                game_IMG_obstacles[i][j].setVisibility(View.VISIBLE);
+                Glide.with(Activity_Game.this)
+                        .load(ObstacleIconRef.REWARD.getDrawableRef())
+                        .into(game_IMG_obstacles[i][j]);
+                break;
         }
     }
 
-    private void updateLivesUI() {
-        for (int i = 0; i < gameManager.getLives(); i++) {
-            game_IMG_lives[i].setVisibility(View.VISIBLE);
-        }
+    private void updatePlayerPositionUI() {
+        for (int i = 0; i < game_IMG_player.length; i++)
+            game_IMG_player[i].setVisibility(i == gameManager.getPlayerPosition() ? View.VISIBLE : View.INVISIBLE);
+    }
 
-        for (int i = gameManager.getLives(); i < game_IMG_lives.length; i++) {
+    private void updateLivesUI() {
+        for (int i = 0; i < gameManager.getLives(); i++)
+            game_IMG_lives[i].setVisibility(View.VISIBLE);
+
+        for (int i = gameManager.getLives(); i < game_IMG_lives.length; i++)
             game_IMG_lives[i].setVisibility(View.INVISIBLE);
-        }
     }
 
     private void updateScoreUI() {
@@ -413,9 +423,13 @@ public class Activity_Game extends AppCompatActivity {
 
     private void gameOver() {
         stopTimer();
+        if (isSensorMode)
+            movementSensor.stop();
+
         game_BTN_right.setEnabled(false);
         game_BTN_left.setEnabled(false);
         game_LAY_gameOver.setVisibility(View.VISIBLE);
+        game_LBL_finalScore.setText(game_LBL_finalScore.getText() + (gameManager.getScore() + ""));
     }
 
     private void gotoActivityScoreBoard() {
@@ -431,6 +445,7 @@ public class Activity_Game extends AppCompatActivity {
             RecordsListMng.getInstance().addRecord(record);
             Intent intent = new Intent(this, Activity_ScoreBoard.class);
             startActivity(intent);
+            finish();
         }
     }
 }

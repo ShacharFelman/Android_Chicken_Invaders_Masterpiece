@@ -1,5 +1,7 @@
 package com.example.android_chicken_invaders.model.entities;
 
+import android.util.Log;
+
 import com.example.android_chicken_invaders.model.GameConstants;
 import com.example.android_chicken_invaders.model.ObstacleTypes;
 
@@ -69,7 +71,20 @@ public class Board {
     }
 
     public void shiftDownObstacles() {
-        if (getRows() - 1 >= 0) System.arraycopy(boardMatrix, 0, boardMatrix, 1, getRows() - 1);
+        int numCols = getCols();
+
+        System.arraycopy(boardMatrix, 0, boardMatrix, 1, getRows() - 1);
+        boardMatrix[0] = getEmptyRow();
+    }
+
+    private ObstacleTypes[] getEmptyRow() {
+        int numCols = getCols();
+
+        ObstacleTypes[] newFirstRow = new ObstacleTypes[numCols];
+        for (int i = 0; i < numCols; i++)
+            newFirstRow[i] = ObstacleTypes.NONE;
+
+        return newFirstRow;
     }
 
     public boolean newObstaclesRow() {
@@ -87,6 +102,8 @@ public class Board {
         newFirstRow[randomCol] = isReward? ObstacleTypes.REWARD : ObstacleTypes.OBSTACLE;
 
         boardMatrix[0] = newFirstRow;
+        Log.d("board", getObstacleRowStr(newFirstRow));
+
         return isReward;
     }
 
@@ -115,5 +132,21 @@ public class Board {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++)
                 this.boardMatrix[i][j] = ObstacleTypes.NONE;
+    }
+
+    public void printObstacleMatrix(ObstacleTypes[][] matrix) {
+        StringBuilder str = new StringBuilder();
+        for (ObstacleTypes[] obstacleTypes : matrix) {
+            str.append(getObstacleRowStr(obstacleTypes));
+            str.append("\n");
+        }
+        Log.d("board", str.toString());
+    }
+
+    public String getObstacleRowStr(ObstacleTypes[] row) {
+        String str = "";
+        for (ObstacleTypes obstacleTypes : row) str += obstacleTypes.ordinal() + " ";
+
+        return str;
     }
 }

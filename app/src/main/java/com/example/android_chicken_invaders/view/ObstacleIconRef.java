@@ -6,8 +6,9 @@ import com.example.android_chicken_invaders.R;
 public enum ObstacleIconRef {
 
         OBSTACLE(R.drawable.ic_egg),
-        REWARD(R.drawable.gif_gift1),
-        CRASH(R.drawable.gif_egg3);
+        REWARD(R.drawable.gif_gift3),
+        CRASH(R.drawable.gif_egg3),
+        EARNED(R.drawable.gif_firwork1);
 
         private final int drawableRef;
 
@@ -27,6 +28,8 @@ public enum ObstacleIconRef {
                     return REWARD;
                 case CRASH:
                     return CRASH;
+                case EARNED:
+                    return EARNED;
                 default:
                     throw new IllegalArgumentException("Invalid icon reference value");
             }

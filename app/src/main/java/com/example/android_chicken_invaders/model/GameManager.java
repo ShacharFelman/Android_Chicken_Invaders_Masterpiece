@@ -16,7 +16,7 @@ public class GameManager {
     private GameManager(int rows, int cols) {
         setRows(rows);
         setCols(cols);
-        board = Board.getInstance(getRows(), getCols()/*, GameConstants.RANDOM_DENSITY*/);
+        board = Board.getInstance(getRows(), getCols());
     }
 
     public static void init(int rows, int cols) {
