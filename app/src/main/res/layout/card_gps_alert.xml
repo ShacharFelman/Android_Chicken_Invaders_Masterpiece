@@ -74,21 +74,21 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/main_BTN_gpsCancel"
+                    android:id="@+id/main_BTN_gpsSettings"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="#F44336"
+                    android:backgroundTint="#6A6A6A"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="No GPS"
+                    android:text="GPS Settings"
                     android:textAllCaps="false"
                     app:cornerRadius="20dp"
                     tools:ignore="HardcodedText"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/main_BTN_gpsSettings"
+                    android:id="@+id/main_BTN_gpsStartGame"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -96,7 +96,7 @@
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="GPS Settings"
+                    android:text="Start Game"
                     android:textAllCaps="false"
                     app:cornerRadius="20dp"
                     tools:ignore="HardcodedText"/>

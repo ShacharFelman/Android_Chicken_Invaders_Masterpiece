@@ -25,14 +25,15 @@ import im.delight.android.location.SimpleLocation;
 
 public class Activity_Main extends AppCompatActivity {
 
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
+
     private MaterialButton main_BTN_play;
     private MaterialButton main_BTN_scoreBoard;
     private MaterialButton main_BTN_gpsSettings;
-    private MaterialButton main_BTN_gpsNo;
+    private MaterialButton main_BTN_gpsStartGame;
     private MaterialButton main_BTN_gpsClose;
     private SwitchMaterial main_SW_sensor;
     private SwitchMaterial main_SW_fast;
-
     private AppCompatImageView main_IMG_back;
     private AppCompatImageView main_IMG_rocket;
 
@@ -42,7 +43,6 @@ public class Activity_Main extends AppCompatActivity {
     private SimpleLocation location;
     double lat;
     double lng;
-    boolean reqNoGPS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class Activity_Main extends AppCompatActivity {
         main_BTN_play = findViewById(R.id.main_BTN_play);
         main_BTN_scoreBoard = findViewById(R.id.main_BTN_scoreBoard);
         main_BTN_gpsSettings = findViewById(R.id.main_BTN_gpsSettings);
-        main_BTN_gpsNo = findViewById(R.id.main_BTN_gpsCancel);
+        main_BTN_gpsStartGame = findViewById(R.id.main_BTN_gpsStartGame);
         main_BTN_gpsClose = findViewById(R.id.main_BTN_gpsClose);
 
         main_SW_sensor = findViewById(R.id.main_SW_sensor);
@@ -95,7 +95,7 @@ public class Activity_Main extends AppCompatActivity {
         main_BTN_play.setOnClickListener(v -> playGame());
         main_BTN_scoreBoard.setOnClickListener(v -> gotoActivityScoreBoard());
         main_BTN_gpsSettings.setOnClickListener(v -> gotoSettingsGPS());
-        main_BTN_gpsNo.setOnClickListener(v -> requestNoGPS());
+        main_BTN_gpsStartGame.setOnClickListener(v ->gotoActivityGame());
         main_BTN_gpsClose.setOnClickListener(v -> hideGPSAlert());
     }
 
@@ -104,7 +104,7 @@ public class Activity_Main extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
         }
         setLatLng(location);
     }
@@ -116,6 +116,8 @@ public class Activity_Main extends AppCompatActivity {
     }
 
     private void gotoActivityGame() {
+        getLocationFromSystem();
+
         Intent intent = new Intent(this, Activity_Game.class);
 
         Bundle bundle = new Bundle();
@@ -169,9 +171,9 @@ public class Activity_Main extends AppCompatActivity {
         startActivity(callGPSSettingIntent);
     }
 
-    private void requestNoGPS() {
-        gotoActivityGame();
-    }
+//    private void requestNoGPS() {
+//        gotoActivityGame();
+//    }
 
     private void disableButtons() {
         main_BTN_play.setEnabled(false);
