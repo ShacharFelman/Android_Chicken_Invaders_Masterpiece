@@ -16,10 +16,11 @@ public class RecordsListMng {
 
     public RecordsListMng() {
         this.topRecords = loadData();
-        sortRecords();
 
         if (topRecords == null)
             this.topRecords = new ArrayList<>();
+
+        sortRecords();
     }
 
     public static RecordsListMng getInstance() {
@@ -38,11 +39,14 @@ public class RecordsListMng {
             topRecords.add(newRecord);
             saveData();
         }
-        GameRecord lastRecord = topRecords.get(topRecords.size()-1);
-        if (lastRecord.getScore() < newRecord.getScore()){
-            topRecords.remove(lastRecord);
-            topRecords.add(newRecord);
-            saveData();
+        else {
+
+            GameRecord lastRecord = topRecords.get(topRecords.size()-1);
+            if (lastRecord.getScore() < newRecord.getScore()){
+                topRecords.remove(lastRecord);
+                topRecords.add(newRecord);
+                saveData();
+            }
         }
         sortRecords();
     }

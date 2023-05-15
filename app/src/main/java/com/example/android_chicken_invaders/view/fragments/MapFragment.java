@@ -43,11 +43,14 @@ public class MapFragment extends Fragment {
             public void onMapReady(GoogleMap googleMap) {
                 MapFragment.this.googleMap = googleMap;
 
-                List<LatLng> locations = new ArrayList<>();
-                for (GameRecord record : RecordsListMng.getInstance().getTopRecords())
-                    locations.add(new LatLng(record.getLat(), record.getLng()));
+                List<GameRecord> recordsList = RecordsListMng.getInstance().getTopRecords();
+                if(!recordsList.isEmpty()) {
+                    List<LatLng> locations = new ArrayList<>();
+                    for (GameRecord record : recordsList)
+                        locations.add(new LatLng(record.getLat(), record.getLng()));
 
-                setMapMultipleLocations(locations);
+                    setMapMultipleLocations(locations);
+                }
             }
         });
 
@@ -69,12 +72,15 @@ public class MapFragment extends Fragment {
     public void setMapMultipleLocations(List<LatLng> locations) {
         googleMap.clear();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (LatLng location : locations)
+        for (LatLng location : locations) {
             builder.include(location); // Add marker position to builder
+            googleMap.addMarker(new MarkerOptions().position(location));
+        }
 
         LatLngBounds bounds = builder.build();
         int padding = 100; // Padding in pixels to set around the markers
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         googleMap.animateCamera(cameraUpdate);
     }
+
 }
