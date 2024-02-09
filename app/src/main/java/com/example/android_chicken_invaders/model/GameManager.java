@@ -1,6 +1,8 @@
 package com.example.android_chicken_invaders.model;
 
+import com.example.android_chicken_invaders.model.constants.GameConstants;
 import com.example.android_chicken_invaders.model.entities.Board;
+import com.example.android_chicken_invaders.model.entities.ObstacleType;
 
 public class GameManager {
     private static GameManager gameManager;
@@ -72,15 +74,24 @@ public class GameManager {
     }
 
     public boolean isObstacleAtPosition(int i, int j) {
-        return board.getBoardMatrix()[i][j] == ObstacleTypes.OBSTACLE;
+        return board.getBoardMatrix()[i][j].getType() == eObstacleTypes.OBSTACLE;
     }
 
     public boolean isCrashed() {
-        return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()] == ObstacleTypes.OBSTACLE;
+        return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()].getType() == eObstacleTypes.OBSTACLE;
     }
 
     public boolean isReward() {
-        return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()] == ObstacleTypes.REWARD;
+        return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()].getType() == eObstacleTypes.REWARD;
+    }
+
+    public ObstacleType getCrashedObstacle() {
+        return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()];
+    }
+
+
+    public ObstacleType getCrashedReward() {
+        return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()];
     }
 
     private void resetBoard() {
@@ -106,6 +117,18 @@ public class GameManager {
             lives--;
     }
 
+    public void reduceLivesBy(int amount) {
+        lives -= amount;
+        if(lives < 0)
+            lives = 0;
+    }
+
+    public void increaseLivesBy(int amount) {
+        lives += amount;
+        if (lives > GameConstants.MAX_LIVES_COUNT)
+            lives = GameConstants.MAX_LIVES_COUNT;
+    }
+
     public boolean isGameOver() {
         return lives == 0;
     }
@@ -126,6 +149,12 @@ public class GameManager {
         score += amount;
     }
 
+    public void reduceScoreBy(int amount) {
+        score -= amount;
+        if(score < 0)
+            score = 0;
+    }
+
     public void movePlayerRight() {
         if(playerPosition < getCols() - 1)
             playerPosition++;
@@ -136,7 +165,7 @@ public class GameManager {
             playerPosition--;
     }
 
-    public ObstacleTypes[][] getObstacles() {
+    public ObstacleType[][] getObstacles() {
         return board.getBoardMatrix();
     }
 }

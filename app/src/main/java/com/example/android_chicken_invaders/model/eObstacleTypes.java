@@ -1,5 +1,5 @@
 package com.example.android_chicken_invaders.model;
 
-public enum ObstacleTypes {
+public enum eObstacleTypes {
     NONE, OBSTACLE, REWARD
 }

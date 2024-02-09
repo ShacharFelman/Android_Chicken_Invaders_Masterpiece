@@ -2,8 +2,9 @@ package com.example.android_chicken_invaders.model.entities;
 
 import android.util.Log;
 
-import com.example.android_chicken_invaders.model.GameConstants;
-import com.example.android_chicken_invaders.model.ObstacleTypes;
+import com.example.android_chicken_invaders.model.ObstacleTypeSingleton;
+import com.example.android_chicken_invaders.model.constants.GameConstants;
+import com.example.android_chicken_invaders.model.eObstacleTypes;
 
 public class Board {
 
@@ -11,20 +12,17 @@ public class Board {
 
     private int rows;
     private int cols;
-    private int gapIndex;
-//    private double obstacleDensity;
-    private ObstacleTypes[][] boardMatrix;
+    private ObstacleType[][] boardMatrix;
 
-    private Board(int rows, int cols/*, double obstacleDensity*/) {
+    private Board(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-//        this.obstacleDensity = obstacleDensity;
-        this.boardMatrix = new ObstacleTypes[rows][cols];
+        this.boardMatrix = new ObstacleType[rows][cols];
     }
 
-    public static Board getInstance(int rows, int cols/*, double obstacleDensity*/) {
+    public static Board getInstance(int rows, int cols) {
         if (instance == null)
-            instance = new Board(rows, cols/*, obstacleDensity*/);
+            instance = new Board(rows, cols);
 
         return instance;
     }
@@ -48,25 +46,16 @@ public class Board {
     }
 
 
-    public ObstacleTypes[][] getBoardMatrix() {
+    public ObstacleType[][] getBoardMatrix() {
         return boardMatrix;
     }
 
-    public Board setBoardMatrix(ObstacleTypes[][] boardMatrix) {
+    public Board setBoardMatrix(ObstacleType[][] boardMatrix) {
         this.boardMatrix = boardMatrix;
         return this;
     }
 
-//    public double getObstacleDensity() {
-//        return obstacleDensity;
-//    }
-
-//    public Board setObstacleDensity(int obstacleDensity) {
-//        this.obstacleDensity = obstacleDensity;
-//        return this;
-//    }
-
-    public ObstacleTypes[] getLastRow() {
+    public ObstacleType[] getLastRow() {
         return this.boardMatrix[boardMatrix.length-1];
     }
 
@@ -77,12 +66,12 @@ public class Board {
         boardMatrix[0] = getEmptyRow();
     }
 
-    private ObstacleTypes[] getEmptyRow() {
+    private ObstacleType[] getEmptyRow() {
         int numCols = getCols();
 
-        ObstacleTypes[] newFirstRow = new ObstacleTypes[numCols];
+        ObstacleType[] newFirstRow = new ObstacleType[numCols];
         for (int i = 0; i < numCols; i++)
-            newFirstRow[i] = ObstacleTypes.NONE;
+            newFirstRow[i] = ObstacleTypeSingleton.getInstance().getNone();
 
         return newFirstRow;
     }
@@ -92,14 +81,18 @@ public class Board {
         int randomCol;
         boolean isReward;
 
-        ObstacleTypes[] newFirstRow = new ObstacleTypes[numCols];
+        ObstacleType[] newFirstRow = new ObstacleType[numCols];
         for (int i = 0; i < numCols; i++)
-            newFirstRow[i] = ObstacleTypes.NONE;
+            newFirstRow[i] = ObstacleTypeSingleton.getInstance().getNone();
 
         randomCol = (int) (Math.random() * numCols);
         isReward = Math.random() < GameConstants.REWARD_PROB;
 
-        newFirstRow[randomCol] = isReward? ObstacleTypes.REWARD : ObstacleTypes.OBSTACLE;
+        if(isReward)
+            newFirstRow[randomCol] = ObstacleTypeSingleton.getInstance().getRandomObstacleType(eObstacleTypes.REWARD);
+        else
+            newFirstRow[randomCol] = ObstacleTypeSingleton.getInstance().getRandomObstacleType(eObstacleTypes.OBSTACLE);
+
 
         boardMatrix[0] = newFirstRow;
         Log.d("board", getObstacleRowStr(newFirstRow));
@@ -107,46 +100,25 @@ public class Board {
         return isReward;
     }
 
-
-//    public boolean newObstaclesRow() {
-//        int numCols = getCols();
-//        int lastGapIndex = gapIndex;
-//        boolean isObstacle = false;
-//        ObstacleTypes[] newFirstRow = new ObstacleTypes[numCols];
-//        gapIndex = (int) (Math.random() * numCols);
-//
-//        for (int i = 0; i < numCols; i++) {
-//            if (i == gapIndex || i == lastGapIndex)
-//                newFirstRow[i] = ObstacleTypes.NONE;
-//            else {
-//                newFirstRow[i] = (Math.random() < obstacleDensity) ? ObstacleTypes.OBSTACLE : ObstacleTypes.NONE;
-//                isObstacle |= newFirstRow[i] == ObstacleTypes.NONE;
-//            }
-//        }
-//
-//        boardMatrix[0] = newFirstRow;
-//        return isObstacle;
-//    }
-
     public void clearObstacles() {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++)
-                this.boardMatrix[i][j] = ObstacleTypes.NONE;
+                this.boardMatrix[i][j] = ObstacleTypeSingleton.getInstance().getNone();
     }
 
-    public void printObstacleMatrix(ObstacleTypes[][] matrix) {
+    public void printObstacleMatrix(ObstacleType[][] matrix) {
         StringBuilder str = new StringBuilder();
-        for (ObstacleTypes[] obstacleTypes : matrix) {
+        for (ObstacleType[] obstacleTypes : matrix) {
             str.append(getObstacleRowStr(obstacleTypes));
             str.append("\n");
         }
         Log.d("board", str.toString());
     }
 
-    public String getObstacleRowStr(ObstacleTypes[] row) {
-        String str = "";
-        for (ObstacleTypes obstacleTypes : row) str += obstacleTypes.ordinal() + " ";
+    public String getObstacleRowStr(ObstacleType[] row) {
+        StringBuilder str = new StringBuilder();
+        for (ObstacleType obstacleTypes : row) str.append(obstacleTypes.getName()).append(" ");
 
-        return str;
+        return str.toString();
     }
 }

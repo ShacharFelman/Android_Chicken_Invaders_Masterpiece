@@ -13,18 +13,20 @@ import androidx.cardview.widget.CardView;
 import com.bumptech.glide.Glide;
 import com.example.android_chicken_invaders.R;
 import com.example.android_chicken_invaders.interfaces.MovementCallback;
-import com.example.android_chicken_invaders.model.GameConstants;
+import com.example.android_chicken_invaders.model.constants.AppConstants;
+import com.example.android_chicken_invaders.model.constants.GameConstants;
 import com.example.android_chicken_invaders.model.GameManager;
-import com.example.android_chicken_invaders.model.ObstacleTypes;
 import com.example.android_chicken_invaders.model.RecordsListMng;
+import com.example.android_chicken_invaders.model.eObstacleTypes;
 import com.example.android_chicken_invaders.model.entities.GameRecord;
+import com.example.android_chicken_invaders.model.entities.ObstacleType;
 import com.example.android_chicken_invaders.sensor.MovementSensor;
 import com.example.android_chicken_invaders.utils.MyScreenUtils;
 import com.example.android_chicken_invaders.utils.MySignal;
-import com.example.android_chicken_invaders.view.ObstacleIconRef;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class Activity_Game extends AppCompatActivity {
@@ -77,12 +79,12 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void initBundleData() {
-        Bundle bundle = getIntent().getBundleExtra(GameConstants.KEY_BUNDLE);
+        Bundle bundle = getIntent().getBundleExtra(AppConstants.KEY_BUNDLE);
 
-        isSensorMode = bundle.getBoolean(GameConstants.KEY_SENSOR, false);
-        isFastMode = bundle.getBoolean(GameConstants.KEY_FAST, false);
-        lat = bundle.getDouble(GameConstants.KEY_LAT, 31.777109717423652);
-        lng = bundle.getDouble(GameConstants.KEY_LNG, 35.23454639997845);
+        isSensorMode = bundle.getBoolean(AppConstants.KEY_SENSOR, false);
+        isFastMode = bundle.getBoolean(AppConstants.KEY_FAST, false);
+        lat = bundle.getDouble(AppConstants.KEY_LAT, 31.777109717423652);
+        lng = bundle.getDouble(AppConstants.KEY_LNG, 35.23454639997845);
 
         timerDelay = GameConstants.TIMER_MS_BASE;
 
@@ -281,16 +283,20 @@ public class Activity_Game extends AppCompatActivity {
 
     private void checkCrashReward() {
         if (gameManager.isReward()) {
-            gameManager.increaseScoreBy(GameConstants.SCORE_REWARD);
-            updatePlayerRewardUI();
+            gameManager.increaseScoreBy(gameManager.getCrashedReward().getScoreValue());
+            gameManager.increaseLivesBy(gameManager.getCrashedObstacle().getLivesValue());
+            updateLivesUI();
             updateScoreUI();
+            updatePlayerRewardUI();
             return;
         }
 
         if (gameManager.isCrashed()) {
-            gameManager.reduceLives();
+            gameManager.reduceLivesBy(gameManager.getCrashedObstacle().getLivesValue());
+            gameManager.reduceScoreBy(gameManager.getCrashedReward().getScoreValue());
             isGameOver = gameManager.isGameOver();
             updateLivesUI();
+            updateScoreUI();
             updatePlayerCrashUI();
 
             if (isGameOver)
@@ -299,10 +305,12 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void updatePlayerCrashUI() {
+        int resourceId = getResources().getIdentifier(gameManager.getCrashedObstacle().getImpactDrawableRef(), "drawable", this.getPackageName());
+
         game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.VISIBLE);
 
         Glide.with(Activity_Game.this)
-                .load(ObstacleIconRef.CRASH.getDrawableRef())
+                .load(resourceId)
                 .into(game_IMG_player_crash[gameManager.getPlayerPosition()]);
 
         if (!isGameOver)
@@ -317,10 +325,12 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void updatePlayerRewardUI() {
+        int resourceId = getResources().getIdentifier(gameManager.getCrashedReward().getImpactDrawableRef(), "drawable", this.getPackageName());
+
         game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.VISIBLE);
 
         Glide.with(Activity_Game.this)
-                .load(ObstacleIconRef.EARNED.getDrawableRef())
+                .load(resourceId)
                 .into(game_IMG_player_crash[gameManager.getPlayerPosition()]);
 
         new Handler().postDelayed(() -> game_IMG_player_crash[gameManager.getPlayerPosition()].setVisibility(View.INVISIBLE), timerDelay);
@@ -338,7 +348,7 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void updateBoardUI() {
-        ObstacleTypes[][] boardObstacles = gameManager.getObstacles();
+        ObstacleType[][] boardObstacles = gameManager.getObstacles();
 
         for (int i = 0; i < boardObstacles.length; i++) {
             for (int j = 0; j < boardObstacles[i].length; j++) {
@@ -350,35 +360,24 @@ public class Activity_Game extends AppCompatActivity {
         }
     }
 
-    private void updateObstacleUI(int i, int j, ObstacleTypes type) {
-        switch (type) {
-            case NONE:
-                game_IMG_obstacles[i][j].setVisibility(View.INVISIBLE);
-                break;
-            case OBSTACLE:
-                game_IMG_obstacles[i][j].setVisibility(View.VISIBLE);
-                game_IMG_obstacles[i][j].setImageResource(ObstacleIconRef.OBSTACLE.getDrawableRef());
-                break;
-            case REWARD:
-                game_IMG_obstacles[i][j].setVisibility(View.VISIBLE);
-                game_IMG_obstacles[i][j].setImageResource(ObstacleIconRef.REWARD.getDrawableRef());
-                break;
+    private void updateObstacleGifUI(int i, int j, ObstacleType obstacle) {
+        int resourceId = 0;
+        if (obstacle.getType() != eObstacleTypes.NONE) {
+            resourceId = getResources().getIdentifier(obstacle.getDrawableRef(), "drawable", this.getPackageName());
         }
-    }
 
-    private void updateObstacleGifUI(int i, int j, ObstacleTypes type) {
-        switch (type) {
+        switch (obstacle.getType()) {
             case NONE:
                 game_IMG_obstacles[i][j].setVisibility(View.INVISIBLE);
                 break;
             case OBSTACLE:
                 game_IMG_obstacles[i][j].setVisibility(View.VISIBLE);
-                game_IMG_obstacles[i][j].setImageResource(ObstacleIconRef.OBSTACLE.getDrawableRef());
+                game_IMG_obstacles[i][j].setImageResource(resourceId);
                 break;
             case REWARD:
                 game_IMG_obstacles[i][j].setVisibility(View.VISIBLE);
                 Glide.with(Activity_Game.this)
-                        .load(ObstacleIconRef.REWARD.getDrawableRef())
+                        .load(resourceId)
                         .into(game_IMG_obstacles[i][j]);
                 break;
         }
@@ -398,7 +397,8 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void updateScoreUI() {
-        game_LBL_score.setText(gameManager.getScore() + "");
+        String scoreText = String.valueOf(gameManager.getScore());
+        game_LBL_score.setText(scoreText);
     }
 
     private void moveRight() {
@@ -426,14 +426,15 @@ public class Activity_Game extends AppCompatActivity {
         if (isSensorMode)
             movementSensor.stop();
 
+        String scoreText = game_LBL_finalScore.getText() + (String.valueOf(gameManager.getScore()));
         game_BTN_right.setEnabled(false);
         game_BTN_left.setEnabled(false);
         game_LAY_gameOver.setVisibility(View.VISIBLE);
-        game_LBL_finalScore.setText(game_LBL_finalScore.getText() + (gameManager.getScore() + ""));
+        game_LBL_finalScore.setText(scoreText);
     }
 
     private void gotoActivityScoreBoard() {
-        if (game_EDT_name.getText().toString().isEmpty())
+        if (Objects.requireNonNull(game_EDT_name.getText()).toString().isEmpty())
             MySignal.getInstance().toast("Please enter a name");
         else {
             GameRecord record = new GameRecord()

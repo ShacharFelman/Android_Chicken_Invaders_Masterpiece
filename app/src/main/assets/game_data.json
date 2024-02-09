@@ -1,0 +1,40 @@
+{
+  "obstacleTypes": {
+    "OBSTACLE": [
+      {
+        "type": "OBSTACLE",
+        "name": "obstacle egg",
+        "drawableRef": "ic_egg",
+        "impactDrawableRef": "gif_egg3",
+        "scoreValue": 0,
+        "livesValue": 1
+      },
+      {
+        "type": "OBSTACLE",
+        "name": "obstacle chicken",
+        "drawableRef": "ic_chicken_small",
+        "impactDrawableRef": "gif_egg2",
+        "scoreValue": 200,
+        "livesValue": 1
+      }
+    ],
+    "REWARD": [
+      {
+        "type": "REWARD",
+        "name": "reward gift",
+        "drawableRef": "gif_gift3",
+        "impactDrawableRef": "gif_firework1",
+        "scoreValue": 50,
+        "livesValue": 0
+      },
+      {
+        "type": "REWARD",
+        "name": "reward life",
+        "drawableRef": "ic_heart",
+        "impactDrawableRef": "gif_firework3",
+        "scoreValue": 0,
+        "livesValue": 1
+      }
+    ]
+  }
+}

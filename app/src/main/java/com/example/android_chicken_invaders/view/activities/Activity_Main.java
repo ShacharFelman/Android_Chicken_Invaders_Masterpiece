@@ -15,7 +15,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.example.android_chicken_invaders.R;
-import com.example.android_chicken_invaders.model.GameConstants;
+import com.example.android_chicken_invaders.model.constants.AppConstants;
 import com.example.android_chicken_invaders.utils.MyScreenUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -121,11 +121,11 @@ public class Activity_Main extends AppCompatActivity {
         Intent intent = new Intent(this, Activity_Game.class);
 
         Bundle bundle = new Bundle();
-        bundle.putBoolean(GameConstants.KEY_SENSOR, isSensorMode());
-        bundle.putBoolean(GameConstants.KEY_FAST, isFastMode());
-        bundle.putDouble(GameConstants.KEY_LAT, this.lat);
-        bundle.putDouble(GameConstants.KEY_LNG, this.lng);
-        intent.putExtra(GameConstants.KEY_BUNDLE, bundle);
+        bundle.putBoolean(AppConstants.KEY_SENSOR, isSensorMode());
+        bundle.putBoolean(AppConstants.KEY_FAST, isFastMode());
+        bundle.putDouble(AppConstants.KEY_LAT, this.lat);
+        bundle.putDouble(AppConstants.KEY_LNG, this.lng);
+        intent.putExtra(AppConstants.KEY_BUNDLE, bundle);
 
         startActivity(intent);
     }
