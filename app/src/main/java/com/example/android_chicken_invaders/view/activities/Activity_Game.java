@@ -3,6 +3,7 @@ package com.example.android_chicken_invaders.view.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -380,6 +381,11 @@ public class Activity_Game extends AppCompatActivity {
                         .load(resourceId)
                         .into(game_IMG_obstacles[i][j]);
                 break;
+        }
+
+        if (gameManager.isObstacleAtPositionByBSP(i, j) && obstacle.getType() == eObstacleTypes.OBSTACLE) {
+            gameManager.reduceScoreBy(5);
+            game_IMG_obstacles[i][j].setImageResource(R.drawable.bomb);
         }
     }
 

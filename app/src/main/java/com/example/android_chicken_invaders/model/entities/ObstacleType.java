@@ -44,9 +44,9 @@ public class ObstacleType {
         return drawableRef;
     }
 
-    public ObstacleType setDrawableRef(String drawableRef) {
+    public void setDrawableRef(String drawableRef) {
         this.drawableRef = drawableRef;
-        return this;
+//        return this;
     }
 
 

@@ -58,7 +58,6 @@ public class Activity_ScoreBoard extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.score_LAY_map,mapFragment).commit();
     }
 
-    //TODO: fix
     private void gotoActivityMain() {
         finish();
     }

@@ -2,6 +2,8 @@ package com.example.android_chicken_invaders.model.entities;
 
 import android.util.Log;
 
+import com.example.android_chicken_invaders.bsp.BSPTree;
+import com.example.android_chicken_invaders.bsp.Point;
 import com.example.android_chicken_invaders.model.ObstacleTypeSingleton;
 import com.example.android_chicken_invaders.model.constants.GameConstants;
 import com.example.android_chicken_invaders.model.eObstacleTypes;
@@ -14,10 +16,16 @@ public class Board {
     private int cols;
     private ObstacleType[][] boardMatrix;
 
+    private BSPTree obstacleTree;
+
     private Board(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         this.boardMatrix = new ObstacleType[rows][cols];
+        this.obstacleTree = new BSPTree(); // Initialize the BSP tree
+
+        obstacleTree.insert(new Point(4, 3));
+        obstacleTree.insert(new Point(4, 4));
     }
 
     public static Board getInstance(int rows, int cols) {
@@ -93,11 +101,15 @@ public class Board {
         else
             newFirstRow[randomCol] = ObstacleTypeSingleton.getInstance().getRandomObstacleType(eObstacleTypes.OBSTACLE);
 
-
         boardMatrix[0] = newFirstRow;
         Log.d("board", getObstacleRowStr(newFirstRow));
 
         return isReward;
+    }
+
+    public boolean isObstacleAtPosition(int i, int j) {
+        // Use the BSP tree to check if there's an obstacle at the given position
+        return obstacleTree.search(new Point(i, j));
     }
 
     public void clearObstacles() {

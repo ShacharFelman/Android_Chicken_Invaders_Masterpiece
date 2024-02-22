@@ -77,6 +77,11 @@ public class GameManager {
         return board.getBoardMatrix()[i][j].getType() == eObstacleTypes.OBSTACLE;
     }
 
+    public boolean isObstacleAtPositionByBSP(int i, int j) {
+        // Use the BSP tree to check if there's an obstacle at the given position
+        return board.isObstacleAtPosition(i, j);
+    }
+
     public boolean isCrashed() {
         return board.getBoardMatrix()[getRows() - 1][getPlayerPosition()].getType() == eObstacleTypes.OBSTACLE;
     }
